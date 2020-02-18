@@ -31,7 +31,7 @@ const Popular: React.FC<IPopularProps> = ({ type }) => {
       case 'show':
         return 'Series';
       case 'movie':
-        return 'Películas';
+        return 'Movies';
       default:
         break;
     }
@@ -41,7 +41,7 @@ const Popular: React.FC<IPopularProps> = ({ type }) => {
     <>
       <h1 className="text-2xl justify-center text-gray-700 m-4 mt-8 flex items-baseline">
         <Emoji emoji={loading ? '⏳' : '⭐'} rotating={loading} />
-        <span className="mx-2">{getTitle()} populares</span>
+        <span className="mx-2">Popular {getTitle()}</span>
       </h1>
       <ul
         className="-mx-2 -mt-2 flex flex-col flex-wrap content-start overflow-x-auto"

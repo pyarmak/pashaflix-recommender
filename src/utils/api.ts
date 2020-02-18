@@ -25,7 +25,7 @@ import {
   MovieWatched,
   Ids,
   Ratings,
-  RecommendedMovie,
+  RecommendedMovie, RequestedMovie,
 } from '../models';
 
 const trakt_api_key = process.env.REACT_APP_TRAKT_API_KEY;
@@ -102,12 +102,8 @@ export const getSeasonEpisodesApi = (id: number, season: number) => {
   );
 };
 
-export const getPlexToken = () => {
-  return axios.get(`https://serve.yarmak.me/api/?v1/sso`, {
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type': 'application/json',
-    },
+export const getRequests = <T extends RequestedMovie>(type: ItemType) => {
+  return axios.get(`https://recommend.yarmak.me/api/v1/Request/${type}`, {
     withCredentials: true,
   });
 };

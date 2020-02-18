@@ -6,7 +6,7 @@ import {
   getProgressApi,
   getSeasonsApi,
   getRecommendedApi,
-  getPlexToken,
+  getRequests,
 } from 'utils/api';
 import { Action } from './action';
 import db from 'utils/db';
@@ -17,6 +17,7 @@ import {
   ShowWatchlist,
   RecommendedMovie,
   RecommendedShow,
+  RequestedMovie,
 } from 'models';
 
 const refreshRecommendedMovies = async (
@@ -35,6 +36,19 @@ const refreshRecommendedMovies = async (
   });
 };
 
+const refreshRequestedMovies = async (dispatch: (action: Action) => void) => {
+  const movieRequested = await db
+    .table<RequestedMovie>('movies')
+    .where({ localState: 'requested' })
+    .toArray();
+
+  dispatch({ type: 'SET_REQUESTED_MOVIES', payload: movieRequested });
+
+  getRequests<RequestedMovie>('movie').then(({ data }) => {
+    dispatch({ type: 'SET_REQUESTED_MOVIES', payload: data });
+  });
+};
+
 const refreshRecommendedShows = async (
   dispatch: (action: Action) => void,
   session: Session,
@@ -45,10 +59,6 @@ const refreshRecommendedShows = async (
     .toArray();
 
   dispatch({ type: 'SET_RECOMMENDED_SHOWS', payload: showsRecommended });
-
-  getPlexToken().then(({ data }) => {
-    console.log(data);
-  });
 
   getRecommendedApi<RecommendedShow>(session, 'show').then(({ data }) => {
     dispatch({ type: 'SET_RECOMMENDED_SHOWS', payload: data });
@@ -99,6 +109,7 @@ const refreshMovies = (
       refreshWatchedMovies(dispatch, session),
       refreshWatchlistMovies(dispatch, session),
       refreshRecommendedMovies(dispatch, session),
+      refreshRequestedMovies(dispatch),
     ]);
   } catch (e) {
     console.error(e);

@@ -36,6 +36,14 @@ export type MovieWatched = {
   watched_at: string;
 };
 
+export type RequestedMovie = {
+  theMovieDbId: number;
+  title: string;
+  approved: boolean;
+  available: boolean;
+  denied: boolean;
+};
+
 export type RecommendedMovie = {
   ids: Ids;
   title: string;

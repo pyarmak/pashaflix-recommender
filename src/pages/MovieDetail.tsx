@@ -23,7 +23,12 @@ export default function MovieDetail() {
   const [people, setPeople] = useState<IPeople>();
   const [ratings, setRatings] = useState<Ratings>();
   const {
-    state: { language },
+    state: {
+      language,
+      userInfo: {
+        movies: { requested },
+      },
+    },
   } = useGlobalState();
   const { title = '', overview = '' } = useTranslate('movie', item);
   const { state } = useLocation();
@@ -34,6 +39,7 @@ export default function MovieDetail() {
   const { isWatchlist, isWatched } = useIsWatch();
 
   useEffect(() => {
+    console.log(requested);
     if (!state || !state.genres) {
       getApi<SearchMovie>(id, 'movie').then(({ data }) => {
         const item = data[0];
@@ -43,7 +49,7 @@ export default function MovieDetail() {
     }
     setItem(state);
     window.scrollTo(0, 0);
-  }, [state, id]);
+  }, [state, id, requested]);
 
   useEffect(() => {
     getPeopleApi(id, 'movie').then(({ data }) => {

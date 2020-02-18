@@ -16,7 +16,7 @@ import {
   Show,
   ShowProgress,
   Season,
-  Episode, RecommendedMovie, RecommendedShow,
+  Episode, RecommendedMovie, RecommendedShow, RequestedMovie,
 } from '../models';
 import { Session } from '../utils/AuthContext';
 import load from './firstLoadAction';
@@ -26,6 +26,7 @@ export type Action =
       type: 'GET_IMG_CONFIG';
       payload: ImgConfig;
     }
+  | { type: 'SET_REQUESTED_MOVIES'; payload: RequestedMovie[] }
   | { type: 'SET_RECOMMENDED_MOVIES'; payload: RecommendedMovie[] }
   | { type: 'SET_RECOMMENDED_SHOWS'; payload: RecommendedShow[] }
   | { type: 'SET_WATCHED_MOVIES'; payload: MovieWatched[] }

@@ -5,6 +5,10 @@ export function reducer(state: IState, action: Action): IState {
   switch (action.type) {
     case 'GET_IMG_CONFIG':
       return { ...state, config: action.payload };
+    case 'SET_REQUESTED_MOVIES': {
+      state.userInfo.movies.requested = action.payload;
+      return { ...state };
+    }
     case 'SET_RECOMMENDED_MOVIES': {
       state.userInfo.movies.recommended = action.payload;
       return { ...state };

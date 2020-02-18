@@ -3,7 +3,7 @@ import {
   MovieWatchlist,
   ShowWatched,
   ShowWatchlist,
-  ImgConfig, RecommendedMovie, RecommendedShow,
+  ImgConfig, RecommendedMovie, RecommendedShow, RequestedMovie,
 } from '../models';
 
 export const PAGE_SIZE = 40;
@@ -14,6 +14,7 @@ interface IUserInfo {
     watched: MovieWatched[];
     watchlist: MovieWatchlist[];
     recommended: RecommendedMovie[];
+    requested: RequestedMovie[];
   };
   shows: {
     ready: boolean;
@@ -44,6 +45,7 @@ export const initialState: IState = {
       watched: [],
       watchlist: [],
       recommended: [],
+      requested: [],
     },
     shows: {
       ready: false,
