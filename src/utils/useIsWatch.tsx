@@ -19,9 +19,15 @@ const useIsWatch = () => {
     );
   };
 
+  const isRequested = (id: number, type: 'show' | 'movie') => {
+    const property = `${type}s` as 'shows' | 'movies';
+    return userInfo[property].requested.some((i: any) => i.theMovieDbId === id);
+  };
+
   return {
     isWatched,
     isWatchlist,
+    isRequested,
   };
 };
 

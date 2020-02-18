@@ -34,6 +34,12 @@ export type RecommendedShow = {
   year: number;
 };
 
+export type RequestedShow = {
+  ids: Ids;
+  title: string;
+  year: number;
+};
+
 export interface Show {
   aired_episodes: number;
   airs: {

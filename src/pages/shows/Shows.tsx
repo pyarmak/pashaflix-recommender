@@ -57,7 +57,7 @@ export default function Shows() {
           }`}
           onClick={() => setMode('watchlist')}
         >
-          <Emoji emoji="⏱" /> Pending ({watchlist.length})
+          <Emoji emoji="⏱" /> Watchlist ({watchlist.length})
         </button>
         <button
           className={`border-b-2 py-2 w-full ${

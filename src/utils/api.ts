@@ -25,7 +25,7 @@ import {
   MovieWatched,
   Ids,
   Ratings,
-  RecommendedMovie, RequestedMovie,
+  RecommendedMovie, RequestedMovie, RequestedShow,
 } from '../models';
 
 const trakt_api_key = process.env.REACT_APP_TRAKT_API_KEY;
@@ -102,7 +102,7 @@ export const getSeasonEpisodesApi = (id: number, season: number) => {
   );
 };
 
-export const getRequests = <T extends RequestedMovie>(type: ItemType) => {
+export const getRequests = <T extends RequestedMovie | RequestedShow>(type: ItemType) => {
   return axios.get(`https://recommend.yarmak.me/api/v1/Request/${type}`, {
     withCredentials: true,
   });

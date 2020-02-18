@@ -18,7 +18,7 @@ const WatchButton: React.FC<IWatchButtonProps> = ({ item }) => {
       removeMovieWatchlist,
     },
   } = useGlobalState();
-  const { isWatchlist, isWatched } = useIsWatch();
+  const { isWatchlist, isWatched, isRequested } = useIsWatch();
 
   const { session } = useContext(AuthContext);
 
@@ -41,19 +41,34 @@ const WatchButton: React.FC<IWatchButtonProps> = ({ item }) => {
               Watched
             </button>
           )}
+          {isRequested(item.ids.tmdb, 'movie') ? (
+            <button
+              className="bg-green-400 py-3 px-12 rounded-full text-white font-bold"
+              onClick={() => console.log(item)}
+            >
+              ✓ Requested
+            </button>
+          ) : (
+            <button
+              className="bg-gray-200 py-3 px-12 rounded-full text-gray-700 font-light"
+              onClick={() => console.log(item)}
+            >
+              Request
+            </button>
+          )}
           {isWatchlist(item.ids.trakt, 'movie') ? (
             <button
               className="bg-blue-400 py-3 px-12 rounded-full text-white font-bold"
               onClick={() => removeMovieWatchlist(item, session)}
             >
-              WatchList
+              ✓ Watchlist
             </button>
           ) : (
             <button
               className="bg-gray-200 py-3 px-12 rounded-full text-gray-700 font-light"
               onClick={() => addMovieWatchlist(item, session)}
             >
-              WatchList
+              Watchlist
             </button>
           )}
         </>

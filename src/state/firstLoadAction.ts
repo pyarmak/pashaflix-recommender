@@ -17,7 +17,7 @@ import {
   ShowWatchlist,
   RecommendedMovie,
   RecommendedShow,
-  RequestedMovie,
+  RequestedMovie, RequestedShow,
 } from 'models';
 
 const refreshRecommendedMovies = async (
@@ -46,6 +46,20 @@ const refreshRequestedMovies = async (dispatch: (action: Action) => void) => {
 
   getRequests<RequestedMovie>('movie').then(({ data }) => {
     dispatch({ type: 'SET_REQUESTED_MOVIES', payload: data });
+  });
+};
+
+const refreshRequestedShows = async (dispatch: (action: Action) => void) => {
+  const movieRequested = await db
+    .table<RequestedShow>('shows')
+    .where({ localState: 'requested' })
+    .toArray();
+
+  dispatch({ type: 'SET_REQUESTED_SHOWS', payload: movieRequested });
+
+  getRequests<RequestedShow>('tv').then(({ data }) => {
+    console.log(data);
+    dispatch({ type: 'SET_REQUESTED_SHOWS', payload: data });
   });
 };
 
@@ -206,6 +220,7 @@ const refreshShows = (dispatch: (action: Action) => void, session: Session) => {
       refreshWatchlistShows(dispatch, session),
       refreshWatchedShows(dispatch, session),
       refreshRecommendedShows(dispatch, session),
+      refreshRequestedShows(dispatch),
     ]);
   } catch (e) {
     console.error(e);

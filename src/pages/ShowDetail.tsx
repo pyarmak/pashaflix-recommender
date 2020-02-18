@@ -79,7 +79,7 @@ export default function ShowDetail() {
   const onShare = () => {
     share(item!.title).then(action => {
       if (action === 'copied') {
-        showAlert(`Enlace a "${item!.title}" copiado`);
+        showAlert(`Copied link to "${item!.title}"`);
       }
     });
   };
@@ -202,14 +202,14 @@ export default function ShowDetail() {
           </div>
 
           <div className="my-4">
-            <p>Resumen:</p>
+            <p>Description:</p>
             <CollapsableText className="leading-tight font-light">
-              {overview || 'Sin descripción'}
+              {overview || 'No Description'}
             </CollapsableText>
           </div>
 
           <div className="my-4">
-            <p>Géneros:</p>
+            <p>Genres:</p>
             <Genres genres={item.genres} />
           </div>
 
@@ -218,7 +218,7 @@ export default function ShowDetail() {
           </div>
 
           <div className="my-4">
-            <p>Relacionados:</p>
+            <p>Related:</p>
             <Related itemId={item.ids.trakt} type="show" />
           </div>
         </article>

@@ -3,7 +3,7 @@ import {
   MovieWatchlist,
   ShowWatched,
   ShowWatchlist,
-  ImgConfig, RecommendedMovie, RecommendedShow, RequestedMovie,
+  ImgConfig, RecommendedMovie, RecommendedShow, RequestedMovie, RequestedShow,
 } from '../models';
 
 export const PAGE_SIZE = 40;
@@ -21,6 +21,7 @@ interface IUserInfo {
     watched: ShowWatched[];
     watchlist: ShowWatchlist[];
     recommended: RecommendedShow[];
+    requested: RequestedShow[];
   };
 }
 
@@ -52,6 +53,7 @@ export const initialState: IState = {
       watched: [],
       watchlist: [],
       recommended: [],
+      requested: [],
     },
   },
   language: 'en',

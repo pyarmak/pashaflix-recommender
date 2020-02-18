@@ -9,6 +9,10 @@ export function reducer(state: IState, action: Action): IState {
       state.userInfo.movies.requested = action.payload;
       return { ...state };
     }
+    case 'SET_REQUESTED_SHOWS': {
+      state.userInfo.shows.requested = action.payload;
+      return { ...state };
+    }
     case 'SET_RECOMMENDED_MOVIES': {
       state.userInfo.movies.recommended = action.payload;
       return { ...state };

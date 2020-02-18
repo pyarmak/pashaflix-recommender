@@ -118,7 +118,7 @@ const Seasons: React.FC<ISeasonsProps> = ({
               selectedClass(s)
             }
           >
-            {s.number ? `Temporada ${s.number}` : 'Especiales'}
+            {s.number ? `Season ${s.number}` : 'Specials'}
             {isSeasonWatched(s.number) ? (
               <span className="ml-2 text-gray-600">✓</span>
             ) : (
@@ -188,14 +188,14 @@ const Seasons: React.FC<ISeasonsProps> = ({
                   className="mx-1 rounded-full text-sm px-3 py-2 bg-gray-200"
                   onClick={() => removeSeasonWatched(selectedSeason)}
                 >
-                  Marcar todo como no vistos
+                  Mark all unwatched
                 </button>
               ) : (
                 <button
                   className="mx-1 rounded-full text-sm px-3 py-2 bg-gray-200"
                   onClick={() => addSeasonWatched(selectedSeason)}
                 >
-                  Marcar todo como vistos
+                  Mark all watched
                 </button>
               )}
             </div>
