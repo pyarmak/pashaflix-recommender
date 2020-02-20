@@ -35,9 +35,52 @@ export type RecommendedShow = {
 };
 
 export type RequestedShow = {
-  ids: Ids;
+  tvDbId: number;
+  imdbId: string;
   title: string;
-  year: number;
+  childRequests: ChildRequests[];
+};
+
+export type ChildRequests = {
+  title: string;
+  approved: boolean;
+  markedAsApproved: string;
+  requestedDate: string;
+  available: boolean;
+  markedAsAvailable: string;
+  requestedUserId: string;
+  denied: boolean;
+  seasonRequests: ShowSeasonRequestModel[];
+};
+
+export type ShowSeasonRequestModel = {
+  seasonNumber: number;
+  episodes: ShowSeasonEpisodeRequestModel[];
+};
+
+export type ShowSeasonEpisodeRequestModel = {
+  episodeNumber: number;
+  available: boolean;
+  approved: boolean;
+  seasonId: number;
+  requested: boolean;
+};
+
+export type ShowRequestModel = {
+  requestAll: boolean;
+  latestSeason: boolean;
+  firstSeason: boolean;
+  tvDbId: number;
+  seasons: ShowRequestSeasonModel[];
+};
+
+export type ShowRequestSeasonModel = {
+  seasonNumber: number;
+  episodes: ShowRequestEpisodeModel[];
+};
+
+export type ShowRequestEpisodeModel = {
+  episodeNumber: number;
 };
 
 export interface Show {
@@ -56,6 +99,7 @@ export interface Show {
   homepage: string;
   ids: Ids & {
     tvrage: any;
+    tvdb: number;
   };
   language: string;
   network: string;
@@ -103,6 +147,9 @@ export interface Episode {
   runtime: number;
   updated_at: string;
   votes: string;
+  requested?: boolean;
+  approved?: boolean;
+  available?: boolean;
 }
 
 export interface Season {

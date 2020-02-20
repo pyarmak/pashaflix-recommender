@@ -26,7 +26,7 @@ const Rating: React.FC<IRatingProps> = ({ rating = 0, votes = 0 }) => {
       ) : (
         <>
           <Emoji emoji="🗳" />
-          {totalVotes} votos
+          {totalVotes} votes
         </>
       )}
     </div>

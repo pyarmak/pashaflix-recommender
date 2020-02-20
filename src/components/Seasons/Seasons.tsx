@@ -37,7 +37,10 @@ const Seasons: React.FC<ISeasonsProps> = ({
     return 'bg-white text-gray-600';
   };
 
-  const isEpisodeWatched = (episodeNumber: number) => {
+  const isEpisode = (
+    status: 'approved' | 'requested' | 'available' | 'completed',
+    episodeNumber: number,
+  ) => {
     if (!progress) {
       return false;
     }
@@ -47,9 +50,9 @@ const Seasons: React.FC<ISeasonsProps> = ({
     if (!foundSeasonProgress) {
       return false;
     }
-    return (
-      foundSeasonProgress.episodes.find(e => e.number === episodeNumber) || {}
-    ).completed;
+    return (foundSeasonProgress.episodes.find(
+      e => e.number === episodeNumber,
+    ) || {})[status];
   };
 
   const isSeasonWatched = (seasonNumber: number) => {
@@ -68,7 +71,7 @@ const Seasons: React.FC<ISeasonsProps> = ({
   };
 
   const toggleEpisode = (episode: Episode) => {
-    if (isEpisodeWatched(episode.number)) {
+    if (isEpisode('completed', episode.number)) {
       removeEpisodeWatched(episode);
     } else {
       addEpisodeWatched(episode);
@@ -141,7 +144,7 @@ const Seasons: React.FC<ISeasonsProps> = ({
                   </span>
                   {isEpisodeAvailable(e) ? (
                     <>
-                      {isEpisodeWatched(e.number) ? (
+                      {isEpisode('completed', e.number) ? (
                         <span className="text-gray-600 mr-2 ml-1">✓</span>
                       ) : (
                         <span className="text-blue-400 mx-2">•</span>
@@ -161,8 +164,9 @@ const Seasons: React.FC<ISeasonsProps> = ({
                       })
                     }
                     className={`flex-grow flex flex-col ${
-                      isEpisodeWatched(e.number) ? 'text-gray-600' : ''
+                      isEpisode('completed', e.number) ? 'text-gray-600' : ''
                     }`}
+                    style={{ cursor: 'pointer' }}
                   >
                     <span>{getTranslated('title', e)}</span>
                     <span className="text-xs">

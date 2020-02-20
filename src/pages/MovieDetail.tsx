@@ -36,10 +36,9 @@ export default function MovieDetail() {
   const { showAlert } = useContext(AlertContext);
   const { share } = useShare();
 
-  const { isWatchlist, isWatched } = useIsWatch();
+  const { isWatchlist, isWatched, isAvailable } = useIsWatch();
 
   useEffect(() => {
-    console.log(requested);
     if (!state || !state.genres) {
       getApi<SearchMovie>(id, 'movie').then(({ data }) => {
         const item = data[0];
@@ -66,6 +65,9 @@ export default function MovieDetail() {
     }
     if (isWatched(+id, 'movie')) {
       return 'bg-green-400';
+    }
+    if (isAvailable(item.ids.tmdb, 'movie')) {
+      return 'bg-green-600';
     }
     if (isWatchlist(+id, 'movie')) {
       return 'bg-blue-400';

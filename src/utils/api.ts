@@ -25,7 +25,9 @@ import {
   MovieWatched,
   Ids,
   Ratings,
-  RecommendedMovie, RequestedMovie, RequestedShow,
+  RecommendedMovie,
+  RequestedMovie,
+  RequestedShow,
 } from '../models';
 
 const trakt_api_key = process.env.REACT_APP_TRAKT_API_KEY;
@@ -102,10 +104,25 @@ export const getSeasonEpisodesApi = (id: number, season: number) => {
   );
 };
 
-export const getRequests = <T extends RequestedMovie | RequestedShow>(type: ItemType) => {
+export const getRequests = <T extends RequestedMovie | RequestedShow>(
+  type: ItemType,
+) => {
   return axios.get(`https://recommend.yarmak.me/api/v1/Request/${type}`, {
     withCredentials: true,
   });
+};
+
+export const requestMovie = (id: number) => {
+  return axios.post(
+    `https://recommend.yarmak.me/api/v1/Request/movie`,
+    {
+      theMovieDbId: id,
+      languageCode: 'en',
+    },
+    {
+      withCredentials: true,
+    },
+  );
 };
 
 export const getProgressApi = (session: Session, id: number) => {

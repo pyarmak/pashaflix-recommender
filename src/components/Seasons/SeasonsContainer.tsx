@@ -7,7 +7,14 @@ import {
 import AuthContext from '../../utils/AuthContext';
 import Seasons from './Seasons';
 import ModalContext from '../../utils/ModalContext';
-import { Show, ShowProgress, Season, Episode, ShowWatched } from '../../models';
+import {
+  Show,
+  ShowProgress,
+  Season,
+  Episode,
+  ShowWatched,
+  ShowSeasonEpisodeRequestModel,
+} from '../../models';
 import { useGlobalState } from '../../state/store';
 
 interface ISeasonsContainerProps {
@@ -28,7 +35,7 @@ const SeasonsContainer: React.FC<ISeasonsContainerProps> = ({
   const {
     state: {
       userInfo: {
-        shows: { watched },
+        shows: { watched, requested },
       },
     },
     actions: {
@@ -38,6 +45,45 @@ const SeasonsContainer: React.FC<ISeasonsContainerProps> = ({
       removeSeasonWatched: removeSeasonWatchedAction,
     },
   } = useGlobalState();
+
+  useEffect(() => {
+    if (!unTrackedProgress || !requested || requested.length < 1) return;
+    for (
+      let iseason = 0;
+      iseason < unTrackedProgress.seasons.length;
+      iseason++
+    ) {
+      let season = unTrackedProgress.seasons[iseason];
+      let seasonId = season.number;
+      if (!seasonId || seasonId === 0) continue;
+      for (let iepisode = 0; iepisode < season.episodes.length; iepisode++) {
+        let episode = season.episodes[iepisode];
+        let episodeId = episode.number;
+        let request = requested.find(j => {
+          return j.tvDbId === show.ids.tvdb;
+        });
+        if (!request) continue;
+        let requestedEpisodes = [] as ShowSeasonEpisodeRequestModel[];
+        for (let ichild = 0; ichild < request.childRequests.length; ichild++) {
+          let childRequest = request.childRequests[ichild];
+          childRequest.seasonRequests.forEach(i => {
+            i.episodes.forEach(k => {
+              if (k.requested) requestedEpisodes.push(k);
+            });
+          });
+        }
+        let res = requestedEpisodes.find(
+          i => i.episodeNumber === episodeId && i.seasonId === seasonId,
+        );
+        if (res) {
+          episode.requested = res.requested;
+          episode.approved = res.approved;
+          episode.available = res.available;
+        }
+      }
+    }
+    setUnTrackedProgress(unTrackedProgress);
+  }, [requested, show, unTrackedProgress]);
 
   const fullShowFn = useCallback(
     () => watched.find(w => w.show.ids.trakt === +showId),

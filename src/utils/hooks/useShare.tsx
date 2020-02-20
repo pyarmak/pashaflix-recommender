@@ -4,7 +4,7 @@ export const useShare = () => {
     if (navigator.share) {
       navigator.share({
         text,
-        title: 'Twiso',
+        title: 'PashaFlix',
         url: window.location.href,
       });
       return 'shared';

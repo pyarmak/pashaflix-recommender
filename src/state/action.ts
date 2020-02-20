@@ -4,7 +4,7 @@ import {
   removeWatchedApi,
   addWatchlistApi,
   removeWatchlistApi,
-  getProgressApi,
+  getProgressApi, requestMovie, getRequests,
 } from '../utils/api';
 import {
   ImgConfig,
@@ -59,6 +59,7 @@ export type Action =
 export interface IDispatchFunctions {
   firstLoad: (session: Session | null) => Promise<void>;
   addMovieWatched: (movie: Movie, session: Session) => void;
+  addMovieRequest: (movie: Movie) => void;
   removeMovieWatched: (movie: Movie, session: Session) => void;
   addMovieWatchlist: (movie: Movie, session: Session) => void;
   removeMovieWatchlist: (movie: Movie, session: Session) => void;
@@ -91,6 +92,14 @@ export const dispatchFunctions = (
 ): IDispatchFunctions => {
   const firstLoad = load(dispatch);
 
+  const addMovieRequest = async (movie: Movie) => {
+    const { data } = await requestMovie(movie.ids.tmdb);
+    if (data.result) {
+      getRequests<RequestedMovie>('movie').then(({ data }) => {
+        dispatch({ type: 'SET_REQUESTED_MOVIES', payload: data });
+      });
+    }
+  };
   const addMovieWatched = async (movie: Movie, session: Session) => {
     const { data } = await addWatchedApi(movie, session, 'movie');
     if (data.added.movies) {
@@ -241,5 +250,6 @@ export const dispatchFunctions = (
     removeEpisodeWatched,
     addSeasonWatched,
     removeSeasonWatched,
+    addMovieRequest,
   };
 };

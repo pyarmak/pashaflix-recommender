@@ -33,14 +33,14 @@ const ShowWatchButton: React.FC<IShowWatchButtonProps> = ({ item }) => {
               className="bg-blue-400 py-3 px-12 rounded-full text-white font-bold"
               onClick={() => removeShowWatchlist(item, session!)}
             >
-              Pendiente
+              ✓ Watchlist
             </button>
           ) : (
             <button
               className="bg-gray-200 py-3 px-12 rounded-full text-gray-700 font-light"
               onClick={() => addShowWatchlist(item, session!)}
             >
-              Pendiente
+              Watchlist
             </button>
           )}
         </>
